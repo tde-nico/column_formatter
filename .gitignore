@@ -1,7 +1,6 @@
 # dirs
 .vscode
 objs
-docs
 
 # files
 column_formatter
