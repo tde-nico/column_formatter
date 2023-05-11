@@ -32,6 +32,7 @@ static int	init_columns(t_formatter *f, char **args)
 	f->cols.form = NULL;
 	f->cols.cols = NULL;
 	f->cols.rows = NULL;
+	f->cols.curr = 0;
 	return (0);
 }
 

@@ -15,9 +15,10 @@
 
 typedef struct s_columns
 {
-	char			**form;
-	char			**cols;
-	char			**rows;
+	char	**form;
+	char	**cols;
+	char	**rows;
+	int		curr;
 }	t_columns;
 
 typedef struct s_formatter
@@ -32,6 +33,9 @@ typedef struct s_formatter
 	t_columns	cols;
 }	t_formatter;
 
+// format.c
+int			format_data(t_formatter *f);
+
 // init.c
 t_formatter	*init_formatter(char **args);
 
@@ -40,8 +44,10 @@ void		free_matrix(char **matrix);
 char		*realloc_str(char *s, size_t size);
 char		**realloc_matr(char **s, size_t size);
 char		*get_next_line(int fd);
-char		*rstrnchr(char *s, char c, size_t len);
+
+// utils_string.c
 char		*strnchr(char *s, char c, size_t len);
+char		*rstrnchr(char *s, char c, size_t len);
 
 // utils_formatter.c
 void		free_formatter(t_formatter *f);
