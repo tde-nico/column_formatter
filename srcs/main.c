@@ -46,7 +46,8 @@ int	count_spaces_to_add(char *s, size_t len)
 	return (count);
 }
 
-char	*format_spaces(char *s, int spaces, int many, size_t line_len, size_t len)
+char	*format_spaces(char *s, int spaces, int many,
+	size_t line_len, size_t len)
 {
 	char	*n;
 	int		count;
@@ -57,45 +58,79 @@ char	*format_spaces(char *s, int spaces, int many, size_t line_len, size_t len)
 	n = malloc(sizeof(char) * (line_len + 1));
 	if (n == NULL)
 		return (NULL);
-	n[line_len] = '\0';
-	bzero(n, line_len);	//removeme
+	bzero(n, line_len + 1);
 	count = 0;
-	printf("len %d %d %ld\n", spaces, many, len);
 	while (s[++i] != '\0' && (i < len))
 	{
-		printf("%ld %d %d |%s|\n", i, count, many, n);
 		if (s[i] != ' ')
 			n[i + count] = s[i];
 		else
 		{
-			//if (many > 0)
-			//	--many;
-			if (many == 0)
+			if (many-- == 0)
 				spaces -= 1;
-			--many;
 			space_count = spaces + 2;
-			printf("%d %d\n", space_count, (int)(i + count));
 			while (--space_count >= 0)
 				n[i + count++] = ' ';
 			--count;
-			printf("%d %d\n", space_count, (int)(i + count));
 		}
 	}
-	printf("%ld %d %d |%s|\n", i, count, many, n);
-	printf("\n\n|%s| %ld\n", n, strlen(n));
 	return (n);
+}
+
+int	format_line(t_formatter *f, size_t *curr,
+	char *space, int i, int *curr_col)
+{
+	size_t	offset;
+	int		spaces;
+	int		many;
+
+	offset = (size_t)(space - &f->cols.rows[i][*curr]);
+	spaces = (f->width - offset) / count_spaces_to_add(
+			&f->cols.rows[i][*curr], offset);
+	many = (f->width - offset) % count_spaces_to_add(
+			&f->cols.rows[i][*curr], offset);
+	f->cols.cols[*curr_col] = format_spaces(
+			&f->cols.rows[i][*curr], spaces, many, f->width, offset);
+	if (f->cols.cols[(*curr_col)++] == NULL)
+		return (raise_error_i("malloc error", f));
+	*curr += offset;
+	return (0);
+}
+
+int	format_lines(t_formatter *f, size_t *curr, size_t len, int i, int *curr_col)
+{
+	char	*space;
+
+	f->cols.cols = realloc_matr(f->cols.cols, *curr_col + 2);
+	if (f->cols.cols == NULL)
+		return (raise_error_i("malloc error", f));
+	f->cols.cols[*curr_col + 1] = NULL;
+	while (f->cols.rows[i][*curr] == ' ')
+		(*curr)++;
+	if ((*curr + f->width) >= len)
+	{
+		f->cols.cols[(*curr_col)++] = strdup(&f->cols.rows[i][*curr]);
+		return (2);
+	}
+	space = rstrnchr(&f->cols.rows[i][*curr], ' ', f->width + 1);
+	if (space == NULL)
+	{
+		f->cols.cols[(*curr_col)++] = strndup(
+				&f->cols.rows[i][*curr], f->width);
+		return (0);
+	}
+	if (format_line(f, curr, space, i, curr_col))
+		return (1);
+	return (0);
 }
 
 int	format_data(t_formatter *f)
 {
-	char	*space;
 	size_t	curr;
-	size_t	offset;
 	size_t	len;
 	int		i;
 	int		curr_col;
-	int		spaces;
-	int		many;
+	int		ret;
 
 	i = -1;
 	curr_col = 0;
@@ -111,39 +146,11 @@ int	format_data(t_formatter *f)
 		len = strlen(f->cols.rows[i]);
 		while (curr < len)
 		{
-			f->cols.cols = realloc_matr(f->cols.cols, curr_col + 2);
-			if (f->cols.cols == NULL)
-				return (raise_error_i("malloc error", f));
-			f->cols.cols[curr_col + 1] = NULL;
-			while (f->cols.rows[i][curr] == ' ')
-				++curr;
-			printf("curr |%ld|%ld|%d|\n", curr, len ,f->width);
-			if ((curr + f->width) >= len)
-			{
-				printf("curr |%ld|%ld|%d|\n", curr, len ,f->width);
-				f->cols.cols[curr_col++] = strdup(&f->cols.rows[i][curr]);
+			ret = format_lines(f, &curr, len, i, &curr_col);
+			if (ret == 1)
+				return (1);
+			else if (ret == 2)
 				break ;
-			}
-			printf("str |%s|\n", &f->cols.rows[i][curr]);
-			space = rstrnchr(&f->cols.rows[i][curr], ' ', f->width + 1);
-			printf("space |%s|\n", space);
-			if (space == NULL)
-			{
-				f->cols.cols[curr_col++] = strndup(&f->cols.rows[i][curr], f->width);
-				break ;
-			}
-			offset = (size_t)(space - &f->cols.rows[i][curr]);
-			printf("space |%ld|\n", offset);
-			spaces = (f->width - offset) / count_spaces_to_add(&f->cols.rows[i][curr], offset);
-			many = (f->width - offset) % count_spaces_to_add(&f->cols.rows[i][curr], offset);
-
-			printf("spaces |%d|%ld|%d|\n", spaces, (f->width - offset), count_spaces_to_add(&f->cols.rows[i][curr], offset));
-
-			f->cols.cols[curr_col] = format_spaces(&f->cols.rows[i][curr], spaces, many, f->width, offset);
-			if (f->cols.cols[curr_col++] == NULL)
-				return (raise_error_i("malloc error", f));
-			curr += offset;
-			printf("\n\n|%s|\n\n", f->cols.cols[curr_col-1]);
 		}
 	}
 	return (0);
