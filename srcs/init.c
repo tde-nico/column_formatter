@@ -28,7 +28,8 @@ static int	init_columns(t_formatter *f, char **args)
 		return (raise_error_i("invalid columns_width", f));
 	f->dist = xatoi(args[3]);
 	if (f->dist < 0)
-		return (raise_error_i("invalid distance", f));
+		return (raise_error_i("invalid columns_distance", f));
+	f->cols.form = NULL;
 	f->cols.cols = NULL;
 	f->cols.rows = NULL;
 	return (0);

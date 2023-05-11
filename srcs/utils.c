@@ -67,6 +67,25 @@ char	*get_next_line(int fd)
 	return (buf);
 }
 
+char	*rstrnchr(char *s, char c, size_t len)
+{
+	size_t	i;
+
+	if (c == '\0')
+		return (s);
+	if (len > strlen(s))
+		i = strlen(s);
+	else
+		i = len;
+	while (i > 0)
+	{
+		if (s[i - 1] == c)
+			return (&s[i - 1]);
+		--i;
+	}
+	return (NULL);
+}
+
 char	*strnchr(char *s, char c, size_t len)
 {
 	size_t	i;

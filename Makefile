@@ -31,7 +31,7 @@ OBJS			= $(SRCS_C:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 #####   COMMANDS   #####
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g
 IFLAGS			= -I$(INCLUDE)
 
 MD				= mkdir -p
@@ -86,7 +86,7 @@ val: all
 
 run: all
 	clear
-	@ ./$(NAME) 3 40 29 5 tests/test.txt
+	@ ./$(NAME) 3 40 29 5 tests/test.txt tmp.tmp
 
 rrun: fclean run
 
