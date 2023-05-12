@@ -37,9 +37,10 @@ char	**realloc_matr(char **s, size_t size)
 	if (n == NULL)
 		return (NULL);
 	i = -1;
-	while (s[++i] != NULL)
+	while (s[++i] != NULL && i < size)
 		n[i] = s[i];
-	n[i] = NULL;
+	while (i < size)
+		n[i++] = NULL;
 	free(s);
 	return (n);
 }

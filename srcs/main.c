@@ -43,8 +43,6 @@ int	format_data(t_formatter *f)
 	f->cols.cols[1] = NULL;
 	while (f->cols.rows[++i] != NULL)
 	{
-		if (f->cols.rows[i][0] == '\n')
-			continue ;
 		f->curr_char = 0;
 		len = strlen(f->cols.rows[i]);
 		if (format_column(f, len, i))
@@ -57,10 +55,12 @@ int	save_data(t_formatter *f)
 {
 	unsigned int	i;
 
+	if (save_columns(f))
+		return (1);
 	i = -1;
-	while (f->cols.cols[++i] != NULL)
+	while (f->cols.form[++i] != NULL)
 	{
-		write(f->out_fd, f->cols.cols[i], strlen(f->cols.cols[i]));
+		write(f->out_fd, f->cols.form[i], strlen(f->cols.form[i]));
 		write(f->out_fd, "\n", 1);
 	}
 	return (0);

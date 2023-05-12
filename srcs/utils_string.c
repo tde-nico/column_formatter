@@ -34,6 +34,21 @@ char	*rstrnchr(char *s, char c, size_t len)
 	return (NULL);
 }
 
+int	count_spaces(char *s, size_t len)
+{
+	int		count;
+	size_t	i;
+
+	count = 0;
+	i = -1;
+	while (s[++i] != '\0' && i < len)
+	{
+		if (s[i] == ' ')
+			++count;
+	}
+	return (count);
+}
+
 int	utf8_char_len(char c)
 {
 	if ((c & 0x80) == 0)

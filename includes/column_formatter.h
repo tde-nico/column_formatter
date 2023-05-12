@@ -40,21 +40,25 @@ int			format_column(t_formatter *f, size_t len, int i);
 // init.c
 t_formatter	*init_formatter(char **args);
 
-// utils.c
-void		free_matrix(char **matrix);
-char		*realloc_str(char *s, size_t size);
-char		**realloc_matr(char **s, size_t size);
-char		*get_next_line(int fd);
-
-// utils_string.c
-char		*strnchr(char *s, char c, size_t len);
-char		*rstrnchr(char *s, char c, size_t len);
-int			utf8_char_len(char c);
-int			utf8_offset(char *s, int len);
+// save.c
+int			save_columns(t_formatter *f);
 
 // utils_formatter.c
 void		free_formatter(t_formatter *f);
 t_formatter	*raise_error_p(char *error, t_formatter *f);
 int			raise_error_i(char *error, t_formatter *f);
+
+// utils_string.c
+char		*strnchr(char *s, char c, size_t len);
+char		*rstrnchr(char *s, char c, size_t len);
+int			count_spaces(char *s, size_t len);
+int			utf8_char_len(char c);
+int			utf8_offset(char *s, int len);
+
+// utils.c
+void		free_matrix(char **matrix);
+char		*realloc_str(char *s, size_t size);
+char		**realloc_matr(char **s, size_t size);
+char		*get_next_line(int fd);
 
 #endif

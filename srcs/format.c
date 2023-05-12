@@ -1,20 +1,5 @@
 #include "column_formatter.h"
 
-int	count_spaces(char *s, size_t len)
-{
-	int		count;
-	size_t	i;
-
-	count = 0;
-	i = -1;
-	while (s[++i] != '\0' && i < len)
-	{
-		if (s[i] == ' ')
-			++count;
-	}
-	return (count);
-}
-
 char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 {
 	char	*n;
@@ -94,6 +79,20 @@ int	format_lines(t_formatter *f, int i, int width)
 	return (0);
 }
 
+int	format_last_line(t_formatter *f, int width, int i)
+{
+	size_t	len;
+
+	len = strlen(&f->cols.rows[i][f->curr_char]);
+	f->cols.cols[f->cols.curr] = malloc(sizeof(char) * (width + 1));
+	if (f->cols.cols[f->cols.curr] == NULL)
+		return (raise_error_i("malloc error", f));
+	strncpy(f->cols.cols[f->cols.curr], &f->cols.rows[i][f->curr_char], width);
+	memset(&f->cols.cols[f->cols.curr][len - 1], (int) ' ', width - len + 1);
+	f->cols.cols[(f->cols.curr)++][width] = '\0';
+	return (0);
+}
+
 int	format_column(t_formatter *f, size_t len, int i)
 {
 	int	width;
@@ -112,8 +111,8 @@ int	format_column(t_formatter *f, size_t len, int i)
 			return (raise_error_i("not UFT-8 text", f));
 		if ((f->curr_char + width) >= len)
 		{
-			f->cols.cols[(f->cols.curr)++] = strdup(
-					&f->cols.rows[i][f->curr_char]);
+			if (format_last_line(f, width, i))
+				return (1);
 			break ;
 		}
 		if (format_lines(f, i, width))
