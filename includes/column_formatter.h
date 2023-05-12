@@ -31,6 +31,7 @@ typedef struct s_formatter
 	int			in_size;
 	int			out_fd;
 	t_columns	cols;
+	size_t		curr_char;
 }	t_formatter;
 
 // format.c
@@ -48,6 +49,8 @@ char		*get_next_line(int fd);
 // utils_string.c
 char		*strnchr(char *s, char c, size_t len);
 char		*rstrnchr(char *s, char c, size_t len);
+int			utf8_char_len(char c);
+int			utf8_offset(char *s, int len);
 
 // utils_formatter.c
 void		free_formatter(t_formatter *f);

@@ -44,53 +44,73 @@ char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 	return (n);
 }
 
-int	format_line(t_formatter *f, size_t *curr, char *space, int i)
+int	format_line(t_formatter *f, char *space, int i, int width)
 {
 	size_t	offset;
 	int		count_spaces;
-	int		spaces;
-	int		many;
 	size_t	lens[2];
 
-	if (space == NULL)
-	{
-		f->cols.cols[(f->cols.curr)++] = strndup(
-				&f->cols.rows[i][*curr], f->width);
-		return (0);
-	}
-	offset = (size_t)(space - &f->cols.rows[i][*curr]);
-	count_spaces = count_spaces_to_add(&f->cols.rows[i][*curr], offset);
-	spaces = (f->width - offset) / count_spaces;
-	many = (f->width - offset) % count_spaces;
-	lens[0] = f->width;
+	offset = (size_t)(space - &f->cols.rows[i][f->curr_char]);
+	count_spaces = count_spaces_to_add(&f->cols.rows[i][f->curr_char], offset);
+	lens[0] = width;
 	lens[1] = offset;
 	f->cols.cols[f->cols.curr] = format_spaces(
-			&f->cols.rows[i][*curr], spaces, many, lens);
+			&f->cols.rows[i][f->curr_char],
+			(width - offset) / count_spaces,
+			(width - offset) % count_spaces,
+			lens);
 	if (f->cols.cols[(f->cols.curr)++] == NULL)
 		return (raise_error_i("malloc error", f));
-	*curr += offset;
+	f->curr_char += offset;
 	return (0);
 }
 
-int	format_lines(t_formatter *f, size_t *curr, size_t len, int i)
+int	format_lines(t_formatter *f, int i, int width)
 {
 	char	*space;
 
-	while (*curr < len)
+	if (width != f->width) // removeme
+		printf("|%s| %d\n", &f->cols.rows[i][f->curr_char], width);
+	space = rstrnchr(&f->cols.rows[i][f->curr_char], ' ', width + 1);
+	if (space == NULL)
+	{
+		f->cols.cols[(f->cols.curr)++] = strndup(
+				&f->cols.rows[i][f->curr_char], width);
+		f->curr_char += width;
+		return (0);
+	}
+	while (space > &f->cols.rows[i][f->curr_char] && space[-1] == ' ')
+		--space;
+	if (format_line(f, space, i, width))
+		return (1);
+	return (0);
+}
+
+int	format_column(t_formatter *f, size_t len, int i)
+{
+	int	width;
+
+	while (f->curr_char < len)
 	{
 		f->cols.cols = realloc_matr(f->cols.cols, f->cols.curr + 2);
 		if (f->cols.cols == NULL)
 			return (raise_error_i("malloc error", f));
 		f->cols.cols[f->cols.curr + 1] = NULL;
-		while (f->cols.rows[i][*curr] == ' ')
-			(*curr)++;
-		if ((*curr + f->width) >= len)
+		while (f->cols.rows[i][f->curr_char] == ' ')
+			(f->curr_char)++;
+		width = f->width + utf8_offset(
+				&f->cols.rows[i][f->curr_char], f->width);
+		printf("%d %s\n", utf8_offset(&f->cols.rows[i][f->curr_char], f->width), &f->cols.rows[i][f->curr_char]);
+		printf("%x\n", (int) f->cols.rows[i][f->curr_char + 2]);
+		if (width < f->width)
+			return (raise_error_i("not UFT-8 text", f));
+		if ((f->curr_char + width) >= len)
 		{
-			f->cols.cols[(f->cols.curr)++] = strdup(&f->cols.rows[i][*curr]);
+			f->cols.cols[(f->cols.curr)++] = strdup(
+					&f->cols.rows[i][f->curr_char]);
 			break ;
 		}
-		space = rstrnchr(&f->cols.rows[i][*curr], ' ', f->width + 1);
-		if (format_line(f, curr, space, i))
+		if (format_lines(f, i, width))
 			return (1);
 	}
 	return (0);
@@ -98,7 +118,6 @@ int	format_lines(t_formatter *f, size_t *curr, size_t len, int i)
 
 int	format_data(t_formatter *f)
 {
-	size_t	curr;
 	size_t	len;
 	int		i;
 
@@ -111,9 +130,9 @@ int	format_data(t_formatter *f)
 	{
 		if (f->cols.rows[i][0] == '\n')
 			continue ;
-		curr = 0;
+		f->curr_char = 0;
 		len = strlen(f->cols.rows[i]);
-		if (format_lines(f, &curr, len, i))
+		if (format_column(f, len, i))
 			return (1);
 	}
 	return (0);
