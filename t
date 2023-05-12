@@ -1,1 +1,0 @@
-3 40 20 5 tests/test.txt tmp.tmp
