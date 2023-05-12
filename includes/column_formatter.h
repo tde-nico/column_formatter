@@ -35,7 +35,7 @@ typedef struct s_formatter
 }	t_formatter;
 
 // format.c
-int			format_data(t_formatter *f);
+int			format_column(t_formatter *f, size_t len, int i);
 
 // init.c
 t_formatter	*init_formatter(char **args);

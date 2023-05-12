@@ -82,11 +82,11 @@ test: all
 
 val: all
 	clear
-	@ valgrind --leak-check=full ./$(NAME) 3 40 29 5 tests/test.txt
+	@ valgrind --leak-check=full ./$(NAME) 3 40 20 5 tests/test.txt
 
 run: all
 	clear
-	@ ./$(NAME) 3 40 29 5 tests/test.txt tmp.tmp
+	@ ./$(NAME) 3 40 20 5 tests/test.txt tmp.tmp
 
 rrun: fclean run
 

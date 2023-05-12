@@ -31,6 +31,28 @@ int	retrive_data(t_formatter *f)
 	return (0);
 }
 
+int	format_data(t_formatter *f)
+{
+	size_t	len;
+	int		i;
+
+	i = -1;
+	f->cols.cols = malloc(sizeof(char *) * 2);
+	if (f->cols.cols == NULL)
+		return (raise_error_i("malloc error", f));
+	f->cols.cols[1] = NULL;
+	while (f->cols.rows[++i] != NULL)
+	{
+		if (f->cols.rows[i][0] == '\n')
+			continue ;
+		f->curr_char = 0;
+		len = strlen(f->cols.rows[i]);
+		if (format_column(f, len, i))
+			return (1);
+	}
+	return (0);
+}
+
 int	save_data(t_formatter *f)
 {
 	unsigned int	i;

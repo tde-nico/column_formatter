@@ -1,1 +1,1 @@
-3 40 29 5 tests/test.txt tmp.tmp
+3 40 20 5 tests/test.txt tmp.tmp
