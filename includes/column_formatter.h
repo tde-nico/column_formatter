@@ -12,6 +12,7 @@
 # include <stdio.h>
 
 # define DEBUG 1
+# define PAGE_SEPARATOR "\n %%% \n"
 
 typedef struct s_columns
 {

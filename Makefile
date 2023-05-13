@@ -82,7 +82,7 @@ test: all
 
 val: all
 	clear
-	@ valgrind --leak-check=full ./$(NAME) 3 40 20 5 tests/test.txt
+	@ valgrind --leak-check=full ./$(NAME) 3 40 20 5 tests/example.txt
 
 run: all
 	clear
