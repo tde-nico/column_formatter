@@ -4,8 +4,11 @@
  * @brief a custom wrap for atoi for more secure conversion
  * @param value the string to be converted into a number
  * @return -1 if not a valid number, otherwise the number as int
+ * 
+ * a custom wrap for atoi that checks if the string exists, is not empty and
+ * in only digit based and then it calls atoi on te string
 */
-static int	xatoi(char *value)
+int	xatoi(char *value)
 {
 	int	i;
 
@@ -25,8 +28,12 @@ static int	xatoi(char *value)
  * @param f the formatter struct
  * @param args the arguments (argv) containing the column-infos
  * @return 0 by default, 1 if error
+ * 
+ * for every one of the four numeric parameters checks if they are valid
+ * if not it raise an error, and then it set some defaults values on the
+ * other struct field for the columns formatting
 */
-static int	init_columns(t_formatter *f, char **args)
+int	init_columns(t_formatter *f, char **args)
 {
 	f->max = xatoi(args[0]);
 	if (f->max < 0)
@@ -53,8 +60,12 @@ static int	init_columns(t_formatter *f, char **args)
  * @param in_fname the input file name (if empty -> stdin)
  * @param out_fname the output file name (if empty -> stdout)
  * @return 0 by default, 1 if error
+ * 
+ * it checks if the file_name of the input file in not null or empty, then if
+ * the file exists, does the same operations on the output file, by default
+ * if none is specified, standard input (0) and standard output (1) are used
 */
-static int	init_files(t_formatter *f, char *in_fname, char *out_fname)
+int	init_files(t_formatter *f, char *in_fname, char *out_fname)
 {
 	struct stat	st;
 
@@ -63,8 +74,6 @@ static int	init_files(t_formatter *f, char *in_fname, char *out_fname)
 	f->in_fd = open(in_fname, O_RDONLY);
 	if (f->in_fd < 0)
 		return (raise_error_i("invalid input file", f));
-	fstat(f->in_fd, &st);
-	f->in_size = st.st_size;
 	if (out_fname != NULL && out_fname[0] != '\0')
 		f->out_fd = open(out_fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (f->out_fd < 0)
@@ -76,6 +85,10 @@ static int	init_files(t_formatter *f, char *in_fname, char *out_fname)
  * @brief initialize all the components of the main struct
  * @param args the arguments of the program
  * @return the formatter struct (main struct)
+ * 
+ * the formatter struct is allocated and the standard files as set then it
+ * calls the "init_columns" and "init_files" functions to initialize the
+ * columns data and the file descriptors
 */
 t_formatter	*init_formatter(char **args)
 {

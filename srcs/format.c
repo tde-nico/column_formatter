@@ -8,6 +8,9 @@
  * @param lens two len: the first is the length of the resulting string,
  * the second is the length of the initial string
  * @return the new formatted string, if an error occours: NULL
+ * 
+ * it creates a new string as the original line but the spaces are
+ * redistributed or added to create padding for the allignement
 */
 char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 {
@@ -45,6 +48,10 @@ char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
  * @param i the current row that is been analyzed
  * @param width the width of the current line in characters (UTF-8)
  * @return 0 by default, 1 if error
+ * 
+ * after counting the number of spaces in the current string and evaluating the
+ * offset for utf-8 characters, it format the tring with the "format_spaces"
+ * function
 */
 int	format_line(t_formatter *f, char *space, int i, int width)
 {
@@ -78,6 +85,10 @@ int	format_line(t_formatter *f, char *space, int i, int width)
  * @param i the current row that is been analyzed
  * @param width the width of the current line in characters (UTF-8)
  * @return 0 by default, 1 if error
+ * 
+ * initialy the function finds the last possible word, if one big word it
+ * will be splitted, then a line is formatted and if it was a one word only
+ * the line is filled to width with spaces
 */
 int	format_lines(t_formatter *f, int i, int width)
 {
@@ -109,6 +120,9 @@ int	format_lines(t_formatter *f, int i, int width)
  * @param width the width of the current line in characters (UTF-8)
  * @param i the current row that is been analyzed
  * @return 0 by default, 1 if error
+ * 
+ * the last line has no need to be formatted, so it will be copied and filled
+ * with spaces to width
 */
 int	format_last_line(t_formatter *f, int width, int i)
 {
@@ -130,6 +144,9 @@ int	format_last_line(t_formatter *f, int width, int i)
  * @param len the length of the current row
  * @param i the current row that is been analyzed
  * @return 0 by default, 1 if error
+ * 
+ * after expanding the format matrix, it evaluates the width of the current
+ * line for the final columns
 */
 int	format_column(t_formatter *f, size_t len, int i)
 {

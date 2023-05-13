@@ -3,6 +3,8 @@
 /**
  * @brief free the bidimensional matrix given as input
  * @param matrix the matrix to be freed
+ * 
+ * loop on a matrix and free all the matrix allocated resources
 */
 void	free_matrix(char **matrix)
 {
@@ -21,6 +23,10 @@ void	free_matrix(char **matrix)
  * @param s the string to realloc
  * @param size the size of the realloc
  * @return the new allocated string
+ * 
+ * creates a new string with new size, then it copies the old content in the
+ * new one, lastly it frees the old string and returns the new one (this
+ * function is used to expand strings)
 */
 char	*realloc_str(char *s, size_t size)
 {
@@ -43,6 +49,9 @@ char	*realloc_str(char *s, size_t size)
  * @param s the matrix to realloc
  * @param size the size of the realloc
  * @return the new allocated matrix
+ * creates a new matrix with new size, then it copies the old content in the
+ * new one, lastly it frees the old matrix and returns the new one (this
+ * function is used to expand matrices)
 */
 char	**realloc_matr(char **s, size_t size)
 {
@@ -65,6 +74,9 @@ char	**realloc_matr(char **s, size_t size)
  * @brief reads a line by an fd
  * @param fd the file descriptor to read from
  * @return the line read by the fd (if possible)
+ * 
+ * allocates a buffer hat is used to store a line content read by an file
+ * descriptor, and every time the string is reallocated with "realloc_str"
 */
 char	*get_next_line(int fd)
 {

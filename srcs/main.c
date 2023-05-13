@@ -4,6 +4,8 @@
  * @brief this function prints the usage
  * @param name the name of the binary
  * @return 1 by default, to purposely return an error
+ * 
+ * It writes on STDOUT_FILENO the usage based on the name of the binary
 */
 int	usage(char *name)
 {
@@ -19,6 +21,13 @@ int	usage(char *name)
  * it in a buffer of rows
  * @param f the formatter structure
  * @return 0 by default, if an error occours: 1
+ * 
+ * It starts by initializing the 2D matrix to store the read data, if it fails,
+ * will return error, then it calls "get_next_line" to retrve a line from the
+ * input file also checking if it is the last line ('\0' of first char)
+ * that means that the input file is finished (EOF), lastly it realloc the
+ * matrix for further lines (this process of reading and storing data is done
+ * untill EOF)
 */
 int	retrive_data(t_formatter *f)
 {
@@ -37,6 +46,8 @@ int	retrive_data(t_formatter *f)
 		if (f->cols.rows[i][0] == '\0')
 			break ;
 		f->cols.rows = realloc_matr(f->cols.rows, i + 3);
+		if (f->cols.rows == NULL)
+			return (raise_error_i("malloc error", f));
 		f->cols.rows[i + 2] = NULL;
 	}
 	return (0);
@@ -46,6 +57,9 @@ int	retrive_data(t_formatter *f)
  * @brief this function formats data from the source to a column format
  * @param f the formatter structure
  * @return 0 by default, if an error occours: 1
+ * 
+ * After initializing the matrix used to store the formatted data it
+ * loops on the previously retrived data formatting line by line
 */
 int	format_data(t_formatter *f)
 {
@@ -72,6 +86,8 @@ int	format_data(t_formatter *f)
  * pages and writing down in the output the result
  * @param f the formatter structure
  * @return 0 by default, if an error occours: 1
+ * 
+ * the formatted data is splitted into pages and writed to the output file
 */
 int	save_data(t_formatter *f)
 {
@@ -93,6 +109,10 @@ int	save_data(t_formatter *f)
  * @param argc the number of arguments
  * @param argv the arguments
  * @return 0 by default, if an error occours: 1
+ * 
+ * if the number of arguments is incompatible it returns error by printing
+ * the usage of the program, then it initialize the formatter (main structure)
+ * and after manipulating the data it frees all the allocated mamories
 */
 int	main(int argc, char **argv)
 {
@@ -110,7 +130,46 @@ int	main(int argc, char **argv)
 }
 
 /**
- * @mainpage
+ * @mainpage Homework SO2 Sapienza
+ * 
+ * @section Usage
+ * ./column_formatter columns_per_page columns_height columns_width
+ * columns_distance [in_file] [out_file]
+ * @remark
+ * this can be alse used with pipes
+ * 
+ * @subsection column_formatter
+ * the name of the program (binary after compilation)\n
+ * use make to compile
+ * 
+ * @subsection columns_per_page
+ * the number of columns that in the final result are present in a page
+ * 
+ * @subsection columns_height
+ * the height (lines) that a page is going to have at max in the resilting text
+ * 
+ * @subsection columns_width
+ * the width (characters) of a column in a page
+ * 
+ * @subsection columns_distance
+ * the number of spaces (empty characters) that are going to pad one column
+ * from another
+ * 
+ * @subsection in_file
+ * [THIS IS AN OPTIONAL ARGUMENT]\n
+ * the file name of a possible input file, if not specified, standard input is
+ * used
+ * 
+ * @subsection out_file
+ * [THIS IS AN OPTIONAL ARGUMENT]\n
+ * the file name of a possible output file where all the formatted data will be
+ * stored after computation.
+ * @remark
+ * Note that you must specify an input file to use this argument, otherwise you
+ * can use the standard redirection ">"
+ * 
+ * 
+ * @section Subject
  * Sistemi Operativi II Modulo. Progetto (Homework).\n
  * L’obiettivo è implementare un programma C che trasformi un testo in italiano
  * da una colonna a più colonne su più pagine (come ad es. per una pagina di

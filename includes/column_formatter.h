@@ -6,14 +6,16 @@
 # include <string.h>
 # include <stdlib.h>
 # include <ctype.h>
-# include <sys/mman.h>
-# include <sys/stat.h>
 
-# include <stdio.h>
-
-# define DEBUG 1
+/**
+ * @brief every page generated will be separated by this string
+*/
 # define PAGE_SEPARATOR "\n %%% \n"
 
+/**
+ * @brief a struct used to store all the columns strings, from the non
+ * formatted to the finished ones
+*/
 typedef struct s_columns
 {
 	char	**form;
@@ -22,6 +24,10 @@ typedef struct s_columns
 	int		curr;
 }	t_columns;
 
+/**
+ * @brief the main struct of the program used to store attributes of the
+ * output data, the input and output files descriptors and various buffers
+*/
 typedef struct s_formatter
 {
 	int			max;
@@ -29,7 +35,6 @@ typedef struct s_formatter
 	int			height;
 	int			dist;
 	int			in_fd;
-	int			in_size;
 	int			out_fd;
 	t_columns	cols;
 	size_t		curr_char;

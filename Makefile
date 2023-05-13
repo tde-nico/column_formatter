@@ -21,7 +21,6 @@ NAME			= column_formatter
 INCLUDE			= includes
 SRC_DIR			= srcs
 OBJ_DIR			= objs
-DOCS_DIR		= docs
 
 SRC_SUB_DIRS	= $(shell find $(SRC_DIR) -type d)
 OBJ_SUB_DIRS	= $(SRC_SUB_DIRS:$(SRC_DIR)%=$(OBJ_DIR)%)
@@ -77,12 +76,15 @@ re: fclean all
 
 #####   EXTRA RULES   #####
 
-$(DOCS_DIR):
-	$(MD) $@
-
-docs: $(DOCS_DIR)
+docs:
 	@ doxygen > /dev/null
 	@ echo "$(GREEN)[+] Docs Generated$(END)"
+	@ echo "$(BLUE)[+] Open ./docs/html/indec.html$(END)"
+
+latex: docs
+	@ make -s -C docs/latex > /dev/null 2> /dev/null
+	@ echo "$(GREEN)[+] Latex Compiled$(END)"
+	@ echo "$(BLUE)[+] Open ./docs/latex/refman.pdf$(END)"
 
 test: all
 	clear
