@@ -2,8 +2,6 @@
 
 void	free_formatter(t_formatter *f)
 {
-	int	i;
-
 	if (f == NULL)
 		return ;
 	if (f->in_fd != STDIN_FILENO)
@@ -13,12 +11,9 @@ void	free_formatter(t_formatter *f)
 	if (f->cols.rows != NULL)
 		free_matrix(f->cols.rows);
 	if (f->cols.cols != NULL)
-	{
-		i = -1;
-		while (f->cols.cols[++i] != NULL)
-			free(f->cols.cols[i]);
-		free(f->cols.cols);
-	}
+		free_matrix(f->cols.cols);
+	if (f->cols.form != NULL)
+		free_matrix(f->cols.form);
 	free(f);
 }
 

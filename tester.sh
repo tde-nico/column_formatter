@@ -54,10 +54,16 @@ function test_cmd {
 	fi
 }
 
+TMP="tmp.tmp"
+RM="rm -f $TMP"
+EARGS="3 40 20 5"
+EXAMPLE="tests/example.txt"
+DIFF="diff $TMP tests/example_output.txt"
+
 valid_cmds=(
-	"rm -f tmp.tmp ; ./$NAME 3 40 29 5 tests/test.txt tmp.tmp ; diff tmp.tmp tests/test_output.txt"
-	"rm -f tmp.tmp ; cat tests/test.txt | ./$NAME 3 40 29 5 > tmp.tmp ; diff tmp.tmp tests/test_output.txt"
-	"rm -f tmp.tmp ; cat tests/test.txt | ./$NAME 3 40 29 5 > tmp.tmp ; diff tmp.tmp tests/test_output.txt"
+	"$RM ; ./$NAME $EARGS $EXAMPLE $TMP ; $DIFF"
+	"$RM ; cat $EXAMPLE | ./$NAME $EARGS > $TMP ; $DIFF"
+	"$RM ; cat $EXAMPLE | ./$NAME $EARGS > $TMP ; $DIFF"
 )
 
 for cmd in "${valid_cmds[@]}"; do
