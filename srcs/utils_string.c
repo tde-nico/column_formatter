@@ -1,20 +1,13 @@
 #include "column_formatter.h"
 
-char	*strnchr(char *s, char c, size_t len)
-{
-	size_t	i;
-
-	if (c == '\0')
-		return (s);
-	i = -1;
-	while (s[++i] != '\0' && i < len)
-	{
-		if (s[i] == c)
-			return (&s[i]);
-	}
-	return (NULL);
-}
-
+/**
+ * @brief a reverse version of strnchr (finds the first occourrence of the
+ * character given as input)
+ * @param s the string to search from
+ * @param c the character to find
+ * @param len the maximum length of the search
+ * @return pointer to the first occourrence, if none found: NULL
+*/
 char	*rstrnchr(char *s, char c, size_t len)
 {
 	size_t	i;
@@ -34,6 +27,12 @@ char	*rstrnchr(char *s, char c, size_t len)
 	return (NULL);
 }
 
+/**
+ * @brief counts the spaces in a string
+ * @param s the string to count from
+ * @param len the maximum length of the count
+ * @return number of spaces
+*/
 int	count_spaces(char *s, size_t len)
 {
 	int		count;
@@ -49,6 +48,11 @@ int	count_spaces(char *s, size_t len)
 	return (count);
 }
 
+/**
+ * @brief gets the length of an utf-8 character
+ * @param c the character
+ * @return character len if in utf-8, -1 if not
+*/
 int	utf8_char_len(char c)
 {
 	if ((c & 0x80) == 0)
@@ -62,6 +66,12 @@ int	utf8_char_len(char c)
 	return (-1);
 }
 
+/**
+ * @brief evals the offset of utf-8 characters in a string
+ * @param s the string to count from
+ * @param len the maximum length of the count
+ * @return the offset of the characters
+*/
 int	utf8_offset(char *s, int len)
 {
 	int	i;

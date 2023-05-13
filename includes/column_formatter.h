@@ -50,7 +50,6 @@ t_formatter	*raise_error_p(char *error, t_formatter *f);
 int			raise_error_i(char *error, t_formatter *f);
 
 // utils_string.c
-char		*strnchr(char *s, char c, size_t len);
 char		*rstrnchr(char *s, char c, size_t len);
 int			count_spaces(char *s, size_t len);
 int			utf8_char_len(char c);

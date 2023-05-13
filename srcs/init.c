@@ -1,5 +1,10 @@
 #include "column_formatter.h"
 
+/**
+ * @brief a custom wrap for atoi for more secure conversion
+ * @param value the string to be converted into a number
+ * @return -1 if not a valid number, otherwise the number as int
+*/
 static int	xatoi(char *value)
 {
 	int	i;
@@ -15,6 +20,12 @@ static int	xatoi(char *value)
 	return (atoi(value));
 }
 
+/**
+ * @brief inits the formatter struct and parses the columns datas
+ * @param f the formatter struct
+ * @param args the arguments (argv) containing the column-infos
+ * @return 0 by default, 1 if error
+*/
 static int	init_columns(t_formatter *f, char **args)
 {
 	f->max = xatoi(args[0]);
@@ -36,6 +47,13 @@ static int	init_columns(t_formatter *f, char **args)
 	return (0);
 }
 
+/**
+ * @brief init the files for input and output
+ * @param f the formatter struct
+ * @param in_fname the input file name (if empty -> stdin)
+ * @param out_fname the output file name (if empty -> stdout)
+ * @return 0 by default, 1 if error
+*/
 static int	init_files(t_formatter *f, char *in_fname, char *out_fname)
 {
 	struct stat	st;
@@ -54,6 +72,11 @@ static int	init_files(t_formatter *f, char *in_fname, char *out_fname)
 	return (0);
 }
 
+/**
+ * @brief initialize all the components of the main struct
+ * @param args the arguments of the program
+ * @return the formatter struct (main struct)
+*/
 t_formatter	*init_formatter(char **args)
 {
 	t_formatter	*f;

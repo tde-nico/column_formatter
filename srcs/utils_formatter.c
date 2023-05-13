@@ -1,5 +1,9 @@
 #include "column_formatter.h"
 
+/**
+ * @brief free all the allocated resources into the formatter main structure
+ * @param f the main formatter struct
+*/
 void	free_formatter(t_formatter *f)
 {
 	if (f == NULL)
@@ -17,6 +21,12 @@ void	free_formatter(t_formatter *f)
 	free(f);
 }
 
+/**
+ * @brief writes on stderr (2) an error after freeing the resources
+ * @param error the string containing the error's descripton
+ * @param f the main formatter struct
+ * @return NULL representing an error
+*/
 t_formatter	*raise_error_p(char *error, t_formatter *f)
 {
 	free_formatter(f);
@@ -26,6 +36,12 @@ t_formatter	*raise_error_p(char *error, t_formatter *f)
 	return (NULL);
 }
 
+/**
+ * @brief writes on stderr (2) an error after freeing the resources
+ * @param error the string containing the error's descripton
+ * @param f the main formatter struct
+ * @return 1 representing an error
+*/
 int	raise_error_i(char *error, t_formatter *f)
 {
 	free_formatter(f);

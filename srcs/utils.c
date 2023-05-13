@@ -1,5 +1,9 @@
 #include "column_formatter.h"
 
+/**
+ * @brief free the bidimensional matrix given as input
+ * @param matrix the matrix to be freed
+*/
 void	free_matrix(char **matrix)
 {
 	int	i;
@@ -12,6 +16,12 @@ void	free_matrix(char **matrix)
 	free(matrix);
 }
 
+/**
+ * @brief realloc a string to a new size (used to extend)
+ * @param s the string to realloc
+ * @param size the size of the realloc
+ * @return the new allocated string
+*/
 char	*realloc_str(char *s, size_t size)
 {
 	char	*n;
@@ -28,6 +38,12 @@ char	*realloc_str(char *s, size_t size)
 	return (n);
 }
 
+/**
+ * @brief realloc a matrix to a new size (used to extend)
+ * @param s the matrix to realloc
+ * @param size the size of the realloc
+ * @return the new allocated matrix
+*/
 char	**realloc_matr(char **s, size_t size)
 {
 	char	**n;
@@ -45,6 +61,11 @@ char	**realloc_matr(char **s, size_t size)
 	return (n);
 }
 
+/**
+ * @brief reads a line by an fd
+ * @param fd the file descriptor to read from
+ * @return the line read by the fd (if possible)
+*/
 char	*get_next_line(int fd)
 {
 	char	*buf;

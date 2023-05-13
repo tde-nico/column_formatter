@@ -21,6 +21,7 @@ NAME			= column_formatter
 INCLUDE			= includes
 SRC_DIR			= srcs
 OBJ_DIR			= objs
+DOCS_DIR		= docs
 
 SRC_SUB_DIRS	= $(shell find $(SRC_DIR) -type d)
 OBJ_SUB_DIRS	= $(SRC_SUB_DIRS:$(SRC_DIR)%=$(OBJ_DIR)%)
@@ -51,30 +52,37 @@ all: $(NAME)
 
 $(NAME): $(OBJ_SUB_DIRS) $(OBJS)
 	@ $(CC) $(CFLAGS) $(IFLAGS) $(OBJS) -o $@
-	@ echo "$(GREEN)[+] $(NAME) compiled$(END)"
+	@ echo "$(GREEN)[+] $(NAME)$(END)"
 
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@ $(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
-	@ echo "$(BLUE)[+] $@ compiled$(END)"
+	@ echo "$(BLUE)[+] $@$(END)"
 
 $(OBJ_SUB_DIRS):
 	@ $(MD) $(OBJ_SUB_DIRS)
-	@ echo "$(PURPLE)[+] $(SRC_DIR) remapped into $(OBJ_DIR) $(END)"
+	@ echo "$(PURPLE)[+] $(SRC_DIR) -> $(OBJ_DIR) $(END)"
 
 
 clean:
 	@ $(RM) $(OBJ_DIR)
-	@ echo "$(YELLOW)[+] $(OBJ_DIR) cleaned$(END)"
+	@ echo "$(YELLOW)[+] $(OBJ_DIR)$(END)"
 
 fclean: clean
 	@ $(RM) $(NAME)
-	@ echo "$(YELLOW)[+] $(NAME) fcleaned$(END)"
+	@ echo "$(YELLOW)[+] $(NAME)$(END)"
 
 re: fclean all
 
 
 #####   EXTRA RULES   #####
+
+$(DOCS_DIR):
+	$(MD) $@
+
+docs: $(DOCS_DIR)
+	@ doxygen > /dev/null
+	@ echo "$(GREEN)[+] Docs Generated$(END)"
 
 test: all
 	clear
@@ -99,4 +107,4 @@ git:
 
 #####   PHONY   #####
 
-.PHONY: all clean fclean re test run rrun git
+.PHONY: all clean fclean re docs test run rrun git

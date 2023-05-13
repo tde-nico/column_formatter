@@ -1,5 +1,14 @@
 #include "column_formatter.h"
 
+/**
+ * @brief formats a string by padding every word with the right amount of spaces
+ * @param s the string to format
+ * @param spaces the amount of spaces to add per word
+ * @param many the amount of extra spaces to add per word
+ * @param lens two len: the first is the length of the resulting string,
+ * the second is the length of the initial string
+ * @return the new formatted string, if an error occours: NULL
+*/
 char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 {
 	char	*n;
@@ -29,6 +38,14 @@ char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 	return (n);
 }
 
+/**
+ * @brief formats a line by evaluating and adding the needed spaces
+ * @param f the formatter struct
+ * @param space a pointer at the end of the current line to format
+ * @param i the current row that is been analyzed
+ * @param width the width of the current line in characters (UTF-8)
+ * @return 0 by default, 1 if error
+*/
 int	format_line(t_formatter *f, char *space, int i, int width)
 {
 	size_t	offset;
@@ -55,6 +72,13 @@ int	format_line(t_formatter *f, char *space, int i, int width)
 	return (0);
 }
 
+/**
+ * @brief formats a set of lines by parsing an input row
+ * @param f the formatter struct
+ * @param i the current row that is been analyzed
+ * @param width the width of the current line in characters (UTF-8)
+ * @return 0 by default, 1 if error
+*/
 int	format_lines(t_formatter *f, int i, int width)
 {
 	char	*space;
@@ -79,6 +103,13 @@ int	format_lines(t_formatter *f, int i, int width)
 	return (0);
 }
 
+/**
+ * @brief formats the last piece of the current row
+ * @param f the formatter struct
+ * @param width the width of the current line in characters (UTF-8)
+ * @param i the current row that is been analyzed
+ * @return 0 by default, 1 if error
+*/
 int	format_last_line(t_formatter *f, int width, int i)
 {
 	size_t	len;
@@ -93,6 +124,13 @@ int	format_last_line(t_formatter *f, int width, int i)
 	return (0);
 }
 
+/**
+ * @brief formats a paragraph by parsing a row into lines
+ * @param f the formatter struct
+ * @param len the length of the current row
+ * @param i the current row that is been analyzed
+ * @return 0 by default, 1 if error
+*/
 int	format_column(t_formatter *f, size_t len, int i)
 {
 	int	width;

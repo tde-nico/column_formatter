@@ -1,5 +1,10 @@
 #include "column_formatter.h"
 
+/**
+ * @brief allocates the array for the output data
+ * @param f the formatter struct
+ * @return 0 by default, 1 if error
+*/
 int	alloc_form(t_formatter *f)
 {
 	size_t	i;
@@ -21,6 +26,12 @@ int	alloc_form(t_formatter *f)
 	return (0);
 }
 
+/**
+ * @brief copies the first piece of the current output line
+ * @param f the formatter struct
+ * @param i the current formatted line to parse
+ * @return 0 by default, 1 if error
+*/
 int	save_first_line(t_formatter *f, size_t i)
 {
 	size_t	form_index;
@@ -34,6 +45,12 @@ int	save_first_line(t_formatter *f, size_t i)
 	return (0);
 }
 
+/**
+ * @brief stacks up the columns in the output array
+ * @param f the formatter struct
+ * @param i the current formatted line to parse
+ * @return 0 by default, 1 if error
+*/
 int	save_column(t_formatter *f, int i)
 {
 	size_t	f_index;
@@ -55,6 +72,11 @@ int	save_column(t_formatter *f, int i)
 	return (0);
 }
 
+/**
+ * @brief splits in pages the formatted data and write in the output file
+ * @param f the formatter struct
+ * @return 0 by default, 1 if error
+*/
 int	save_columns(t_formatter *f)
 {
 	size_t	i;
