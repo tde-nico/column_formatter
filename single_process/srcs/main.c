@@ -69,10 +69,10 @@ int	format_data(t_formatter *f)
 	size_t	len;
 	size_t	i;
 
-	f->cols.cols = malloc(sizeof(char *) * 2);
+	f->cols.cols = malloc(sizeof(char *));
 	if (f->cols.cols == NULL)
 		return (raise_error_i("malloc error", f));
-	f->cols.cols[1] = NULL;
+	f->cols.cols[0] = NULL;
 	i = 0;
 	while (f->cols.rows[i] != NULL)
 	{

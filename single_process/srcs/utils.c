@@ -97,7 +97,7 @@ char	*get_monospaced_line(int fd)
 	int		i;
 
 	buf = malloc(sizeof(char) * 2);
-	if (!buf)
+	if (buf == NULL)
 		return (NULL);
 	buf[0] = '\0';
 	buf[1] = '\0';
