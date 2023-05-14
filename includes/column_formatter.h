@@ -66,6 +66,6 @@ int			utf8_offset(char *s, int len);
 void		free_matrix(char **matrix);
 char		*realloc_str(char *s, size_t size);
 char		**realloc_matr(char **s, size_t size);
-char		*get_next_line(int fd);
+char		*get_monospaced_line(int fd);
 
 #endif

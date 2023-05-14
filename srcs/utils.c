@@ -40,6 +40,7 @@ char	*realloc_str(char *s, size_t size)
 	i = -1;
 	while (s[++i] != '\0' && i < size)
 		n[i] = s[i];
+	n[i] = '\0';
 	while (i < size)
 		n[i++] = '\0';
 	free(s);
@@ -80,25 +81,30 @@ char	**realloc_matr(char **s, size_t size)
  * allocates a buffer hat is used to store a line content read by an file
  * descriptor, and every time the string is reallocated with "realloc_str"
 */
-char	*get_next_line(int fd)
+char	*get_monospaced_line(int fd)
 {
 	char	*buf;
+	char	c;
 	int		nbytes;
 	int		i;
 
-	buf = malloc(sizeof(char) * 1);
+	buf = malloc(sizeof(char) * 2);
 	if (!buf)
 		return (NULL);
 	buf[0] = '\0';
+	buf[1] = '\0';
+	c = '\0';
 	nbytes = 1;
 	i = -1;
 	while (nbytes > 0)
 	{
-		if (buf[i] == '\n')
+		if (i >= 0 && buf[i] == '\n')
 			break ;
-		nbytes = read(fd, &buf[++i], 1);
-		buf = realloc_str(buf, i + 2);
-		buf[i + 1] = '\0';
+		nbytes = read(fd, &c, 1);
+		if (i >= 0 && c == ' ' && buf[i] == ' ')
+			continue ;
+		buf[++i] = c;
+		buf = realloc_str(buf, i + 3);
 	}
 	return (buf);
 }

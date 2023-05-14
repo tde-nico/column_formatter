@@ -40,7 +40,7 @@ int	retrive_data(t_formatter *f)
 	f->cols.rows[1] = NULL;
 	while (1)
 	{
-		f->cols.rows[++i] = get_next_line(f->in_fd);
+		f->cols.rows[++i] = get_monospaced_line(f->in_fd);
 		if (f->cols.rows[i] == NULL)
 			return (raise_error_i("malloc error", f));
 		if (f->cols.rows[i][0] == '\0')
@@ -48,7 +48,6 @@ int	retrive_data(t_formatter *f)
 		f->cols.rows = realloc_matr(f->cols.rows, i + 3);
 		if (f->cols.rows == NULL)
 			return (raise_error_i("malloc error", f));
-		f->cols.rows[i + 2] = NULL;
 	}
 	return (0);
 }

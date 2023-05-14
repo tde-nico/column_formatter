@@ -94,7 +94,7 @@ val: all
 	clear
 	@ valgrind --leak-check=full ./$(NAME) 3 40 20 5 tests/example.txt
 
-run: all
+run: all #test
 	clear
 	@ ./$(NAME) 3 40 20 5 tests/example.txt tmp.tmp
 

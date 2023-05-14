@@ -36,11 +36,6 @@ char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 			while (--counts[1] >= 0)
 				n[i + counts[0]++] = ' ';
 			--counts[0];
-			while (s[i + 1] == ' ' && (i + 1) < lens[1])
-			{
-				--counts[0];
-				++i;
-			}
 		}
 	}
 	return (n);
@@ -162,7 +157,6 @@ int	format_column(t_formatter *f, size_t len, int i)
 		f->cols.cols = realloc_matr(f->cols.cols, f->cols.curr + 2);
 		if (f->cols.cols == NULL)
 			return (raise_error_i("malloc error", f));
-		f->cols.cols[f->cols.curr + 1] = NULL;
 		while (f->cols.rows[i][f->curr_char] == ' ')
 			(f->curr_char)++;
 		width = f->width + utf8_offset(

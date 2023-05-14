@@ -51,11 +51,7 @@ int	count_spaces(char *s, size_t len)
 	while (s[++i] != '\0' && i < len)
 	{
 		if (s[i] == ' ')
-		{
 			++count;
-			while (s[i + 1] == ' ' && i < len)
-				++i;
-		}
 	}
 	return (count);
 }
@@ -98,23 +94,12 @@ int	utf8_offset(char *s, int len)
 
 	i = 0;
 	count = 0;
-	while (s[i] != '\0' && i < (len + count))
+	while (s[i] && i < (len + count))
 	{
 		clen = utf8_char_len(s[i]);
 		if (clen == -1)
 			return (-1);
 		count += clen - 1;
-		if (s[i] == ' ' && s[i + 1] == ' ')
-		{
-			while (s[i + 1] == ' ' && i < (len + count + clen))
-			{
-				++i;
-				++clen;
-			}
-			clen--;
-			if ((i + 1) < (len + count))
-				count += clen;
-		}
 		i += clen;
 	}
 	return (count);
