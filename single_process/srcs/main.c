@@ -82,7 +82,6 @@ int	format_data(t_formatter *f)
 			return (1);
 		++i;
 	}
-	//free_matrix(f->cols.rows);
 	return (0);
 }
 

@@ -6,8 +6,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <ctype.h>
-
-#include <stdio.h> //REMOVE
+# include <sys/wait.h>
 
 /**
  * @brief every page generated will be separated by this string
@@ -42,11 +41,19 @@ typedef struct s_formatter
 	size_t		curr_char;
 }	t_formatter;
 
+// data.c
+int			retrive_data(t_formatter *f);
+int			format_data(t_formatter *f);
+int			save_data(t_formatter *f);
+
 // format.c
 int			format_column(t_formatter *f, size_t len, size_t i);
 
 // init.c
 t_formatter	*init_formatter(char **args);
+
+// pipeline.c
+int			pipeline(t_formatter *f);
 
 // save.c
 int			save_columns(t_formatter *f);
@@ -66,5 +73,11 @@ void		free_matrix(char **matrix);
 char		*realloc_str(char *s, size_t size);
 char		**realloc_matr(char **s, size_t size);
 char		*get_monospaced_line(int fd);
+char		*get_next_line(int fd, int newline);
+
+// wraps.c
+int			retrive_data_wrapper(t_formatter *f);
+int			format_data_wrapper(t_formatter *f);
+int			save_data_wrapper(t_formatter *f);
 
 #endif

@@ -7,8 +7,6 @@
 # include <stdlib.h>
 # include <ctype.h>
 
-#include <stdio.h> //REMOVE
-
 /**
  * @brief every page generated will be separated by this string
 */

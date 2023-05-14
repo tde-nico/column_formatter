@@ -55,6 +55,7 @@ char	*realloc_str(char *s, size_t size)
  * @param s the matrix to realloc
  * @param size the size of the realloc
  * @return the new allocated matrix
+ * 
  * creates a new matrix with new size, then it copies the old content in the
  * new one, lastly it frees the old matrix and returns the new one (this
  * function is used to expand matrices)
@@ -80,12 +81,13 @@ char	**realloc_matr(char **s, size_t size)
 }
 
 /**
- * @brief reads a line by an fd
+ * @brief reads a line by an fd replacing consecutive spaces with one
  * @param fd the file descriptor to read from
  * @return the line read by the fd (if possible)
  * 
  * allocates a buffer hat is used to store a line content read by an file
  * descriptor, and every time the string is reallocated with "realloc_str"
+ * and every time encounters a spaces, tries to skip the following ones
 */
 char	*get_monospaced_line(int fd)
 {

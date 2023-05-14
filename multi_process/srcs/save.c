@@ -97,6 +97,8 @@ int	save_column(t_formatter *f, int i)
 	old_len = strlen(f->cols.form[f_index]);
 	c_len = strlen(f->cols.cols[c_index]) + 1;
 	offset = old_len + f->dist;
+	if (f->cols.cols[c_index][0] == '\0')
+		return (0);
 	f->cols.form[f_index] = realloc_str(f->cols.form[f_index], offset + c_len);
 	if (f->cols.form[f_index] == NULL)
 		return (raise_error_i("malloc error", f));
