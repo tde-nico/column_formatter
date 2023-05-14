@@ -12,7 +12,7 @@ colonne    su    più     per   colonna);   la     necessaria.
 pagine  (come ad es.     distanza          in                         
 per  una  pagina  di     caratteri   tra  una     Requisiti   generali
 quotidiano).    Sono     colonna  di  testo e     del  progetto:  ogni
-richieste        due     l’altra.                 file  .c/.h    dovrà
+richieste        due     l’altra.                 file   .c/.h   dovrà
 versioni         del                              essere           ben
 programma:   una   a     Dati   in  uscita  e     commentato: per ogni
 singolo  processo  e     requisiti:  un  file     funzione  commentare

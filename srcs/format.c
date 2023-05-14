@@ -36,6 +36,11 @@ char	*format_spaces(char *s, int spaces, int many, size_t lens[2])
 			while (--counts[1] >= 0)
 				n[i + counts[0]++] = ' ';
 			--counts[0];
+			while (s[i + 1] == ' ' && (i + 1) < lens[1])
+			{
+				--counts[0];
+				++i;
+			}
 		}
 	}
 	return (n);

@@ -67,8 +67,6 @@ int	init_columns(t_formatter *f, char **args)
 */
 int	init_files(t_formatter *f, char *in_fname, char *out_fname)
 {
-	struct stat	st;
-
 	if (in_fname == NULL || in_fname[0] == '\0')
 		return (0);
 	f->in_fd = open(in_fname, O_RDONLY);

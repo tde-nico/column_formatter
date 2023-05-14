@@ -16,6 +16,7 @@ void	free_matrix(char **matrix)
 	while (matrix[++i] != NULL)
 		free(matrix[i]);
 	free(matrix);
+	matrix = NULL;
 }
 
 /**
@@ -37,9 +38,10 @@ char	*realloc_str(char *s, size_t size)
 	if (n == NULL)
 		return (NULL);
 	i = -1;
-	while (s[++i] != '\0')
+	while (s[++i] != '\0' && i < size)
 		n[i] = s[i];
-	n[i] = '\0';
+	while (i < size)
+		n[i++] = '\0';
 	free(s);
 	return (n);
 }
