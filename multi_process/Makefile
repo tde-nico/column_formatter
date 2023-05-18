@@ -31,7 +31,7 @@ OBJS			= $(SRCS_C:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 #####   COMMANDS   #####
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror
 IFLAGS			= -I$(INCLUDE)
 
 MD				= mkdir -p
@@ -109,4 +109,4 @@ git:
 
 #####   PHONY   #####
 
-.PHONY: all clean fclean re docs test run rrun git
+.PHONY: all clean fclean re docs latex test val run rrun git
